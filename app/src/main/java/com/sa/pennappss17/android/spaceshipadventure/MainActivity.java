@@ -44,21 +44,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         getSupportActionBar().hide();
 
         gameView = new GameView(this);
-        gameView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                View decorView = getWindow().getDecorView();
-                int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN;
-                decorView.setSystemUiVisibility(uiOptions);
-            }
-        });
+
         setContentView(gameView);
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
+        height -= 300;
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -69,11 +62,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gameView.gameObjs = Collections.newSetFromMap(new ConcurrentHashMap<GameObj, Boolean>());
         gameView.gameObjs.add(spaceship);
 
-//        for (int i = 0; i < 10; i++) {
-//
-//            Obstacle obstacle = new Obstacle(width, height, spaceshipBm);
-//            gameView.gameObjs.add(obstacle);
-//        }
+        for (int i = 0; i < 10; i++) {
+
+            Obstacle obstacle = new Obstacle(width, height, spaceshipBm);
+            gameView.gameObjs.add(obstacle);
+        }
         Fox fox = new Fox(width - 300, 0, spaceshipBm);
         gameView.gameObjs.add(fox);
 
@@ -87,10 +80,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
                 , SensorManager.SENSOR_DELAY_FASTEST);
 
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+//        View decorView = getWindow().getDecorView();
+//        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        decorView.setSystemUiVisibility(uiOptions);
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -147,11 +140,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        View decorView = getWindow().getDecorView();
+//        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        decorView.setSystemUiVisibility(uiOptions);
+//    }
 }
