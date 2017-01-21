@@ -10,9 +10,12 @@ public class Obstacle implements GameObj {
     private double xPosition;
     private final double yPosition;
     private double velocity;
+    private Bitmap bitmap;
 
-    public Obstacle(int xInitial, int boundary) {
+    public Obstacle(int xInitial, int boundary, Bitmap bitmap) {
         xPosition = xInitial;
+        this.bitmap = Bitmap.createScaledBitmap(bitmap, 400, 300, true);
+        bitmap.recycle();
         yPosition = Math.random() * boundary;
         velocity = Math.random() * 5 + 5;
     }
@@ -23,16 +26,16 @@ public class Obstacle implements GameObj {
 
     @Override
     public Bitmap getBitmap() {
-        return null;
+        return bitmap;
     }
 
     @Override
     public int getX() {
-        return 0;
+        return (int) xPosition;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return (int) yPosition;
     }
 }
