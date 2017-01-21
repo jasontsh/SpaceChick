@@ -8,7 +8,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.HashSet;
@@ -35,7 +38,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gameView = new GameView(this);
         setContentView(gameView);
 
-        spaceship = new Spaceship(100, BitmapFactory.decodeResource(getResources(),
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        spaceship = new Spaceship(100, height, BitmapFactory.decodeResource(getResources(),
                 R.drawable.spaceship));
         gameView.gameObjs = new HashSet<>();
         gameView.gameObjs.add(spaceship);
@@ -47,6 +57,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
                 , SensorManager.SENSOR_DELAY_FASTEST);
+
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         gameView.resume();
     }
 
@@ -77,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
 
     }
 }

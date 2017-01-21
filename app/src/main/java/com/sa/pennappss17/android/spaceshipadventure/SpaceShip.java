@@ -9,11 +9,13 @@ public class Spaceship implements GameObj {
     private double velocity;
     private int health;
     private Bitmap bitmap;
+    private int maxHeight;
 
-    public Spaceship(double position, Bitmap bitmap) {
+    public Spaceship(double position, int height, Bitmap bitmap) {
         initialPosition = position;
         this.bitmap = bitmap;
         health = 100;
+        maxHeight = height;
 
     }
     public void setVelocity(double velocity) {
@@ -39,6 +41,11 @@ public class Spaceship implements GameObj {
     }
 
     public void setAccelaration(float f) {
-        yPosition += 1.1 * f;
+        yPosition += 1.5 * f;
+        if (yPosition <= 0) {
+            yPosition = 0;
+        } else if (yPosition >= maxHeight-100) {
+            yPosition = maxHeight - 100;
+        }
     }
 }
