@@ -47,5 +47,6 @@ public class Spaceship implements GameObj {
         } else if (yPosition >= maxHeight-100) {
             yPosition = maxHeight - 100;
         }
+        if (f <= .2) return;
     }
 }
