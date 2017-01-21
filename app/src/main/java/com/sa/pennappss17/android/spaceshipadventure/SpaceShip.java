@@ -41,12 +41,12 @@ public class Spaceship implements GameObj {
     }
 
     public void setAccelaration(float f) {
+        if (f <= .2) return;
         yPosition += 1.5 * f;
         if (yPosition <= 0) {
             yPosition = 0;
         } else if (yPosition >= maxHeight-100) {
             yPosition = maxHeight - 100;
         }
-        if (f <= .2) return;
     }
 }
