@@ -3,6 +3,7 @@ package com.sa.pennappss17.android.spaceshipadventure;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -29,10 +30,46 @@ public class GameView extends SurfaceView implements Runnable {
         super(context);
         ourHolder = getHolder();
         paint = new Paint();
+        playing = true;
     }
 
     @Override
     public void run() {
+        while (playing) {
+            long startFrameTime = System.currentTimeMillis();
 
+            draw();
+
+            timeThisFrame = System.currentTimeMillis();
+            if (timeThisFrame > 0) {
+                fps = 1000 / timeThisFrame;
+            }
+        }
+    }
+
+    public void draw() {
+        if (ourHolder.getSurface().isValid()) {
+            canvas = ourHolder.lockCanvas();
+            //draw background here
+            for (GameObj go : gameObjs) {
+                canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
+            }
+            ourHolder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+    public void pause() {
+        playing = false;
+        try {
+            gameThread.join();
+        } catch (InterruptedException e) {
+            Log.e("Error:", "joining thread");
+        }
+    }
+
+    public void resume() {
+        playing = true;
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 }
