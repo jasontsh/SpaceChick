@@ -40,7 +40,7 @@ public class Spaceship implements GameObj {
     }
 
     public void setAccelaration(float f) {
-        if (f <= .2) return;
+        if (f <= Math.abs(.2)) return;
         yPosition += 1.5 * f;
         if (yPosition <= 0) {
             yPosition = 0;
