@@ -49,4 +49,9 @@ public class Spaceship implements GameObj {
             yPosition = maxHeight - 80;
         }
     }
+
+    @Override
+    public Hitbox getHitbox() {
+        return new Hitbox((int) (initialPosition+70), (int) (yPosition+70), 200, 200);
+    }
 }

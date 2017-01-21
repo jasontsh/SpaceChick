@@ -10,8 +10,5 @@ public interface GameObj {
     Bitmap getBitmap();
     int getX();
     int getY();
-
-    public void getHitBox() {
-
-    }
+    Hitbox getHitbox();
 }

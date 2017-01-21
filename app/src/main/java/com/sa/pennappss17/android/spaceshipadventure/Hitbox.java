@@ -27,7 +27,7 @@ public class Hitbox {
                 (this.xStart >= other.xStart && this.xStart <= other.xEnd && this.yStart >= other.yStart && this.yStart <= other.yEnd) ||
                 (this.xEnd >= other.xStart && this.xEnd <= other.xEnd && this.yEnd >= other.yStart && this.yEnd <= other.yEnd) ||
                 (this.xStart >= other.xStart && this.xStart <= other.xEnd && this.yEnd >= other.yStart && this.yEnd <= other.yEnd) ||
-                (this.xEnd >= other.xStart && this.xEnd <= other.xEnd && this.yEnd >= other.yStart && this.yEnd <= other.yEnd)
+                (this.xEnd >= other.xStart && this.xEnd <= other.xEnd && this.yEnd >= other.yStart && this.yEnd <= other.yEnd);
     }
 
 }

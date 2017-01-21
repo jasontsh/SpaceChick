@@ -38,4 +38,9 @@ public class Obstacle implements GameObj {
     public int getY() {
         return (int) yPosition;
     }
+
+    @Override
+    public Hitbox getHitbox() {
+        return new Hitbox((int) (xPosition+10), (int) (yPosition+10), 20, 20);
+    }
 }
