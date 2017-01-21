@@ -15,7 +15,6 @@ public class Obstacle implements GameObj {
     public Obstacle(int xInitial, int boundary, Bitmap bitmap) {
         xPosition = xInitial;
         this.bitmap = Bitmap.createScaledBitmap(bitmap, 400, 300, true);
-        bitmap.recycle();
         yPosition = Math.random() * boundary;
         velocity = Math.random() * 5 + 5;
     }

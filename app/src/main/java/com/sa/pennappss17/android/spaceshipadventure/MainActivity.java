@@ -1,6 +1,7 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -61,17 +62,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        spaceship = new Spaceship(0, height, BitmapFactory.decodeResource(getResources(),
-                R.drawable.spaceship));
+        Bitmap spaceshipBm = BitmapFactory.decodeResource(getResources(),
+                R.drawable.spaceship);
+
+        spaceship = new Spaceship(0, height, spaceshipBm);
         gameView.gameObjs = Collections.newSetFromMap(new ConcurrentHashMap<GameObj, Boolean>());
         gameView.gameObjs.add(spaceship);
 
-        for (int i = 0; i < 10; i++) {
+//        for (int i = 0; i < 10; i++) {
+//
+//            Obstacle obstacle = new Obstacle(width, height, spaceshipBm);
+//            gameView.gameObjs.add(obstacle);
+//        }
+        Fox fox = new Fox(width - 300, 0, spaceshipBm);
+        gameView.gameObjs.add(fox);
 
-            Obstacle obstacle = new Obstacle(width, height, BitmapFactory.decodeResource(getResources(),
-                    R.drawable.spaceship));
-            gameView.gameObjs.add(obstacle);
-        }
+        spaceshipBm.recycle();
     }
 
     @Override
@@ -99,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void run() {
                 for (GameObj obj : gameView.gameObjs) {
-                    if (!(obj instanceof Spaceship)) {
+                    if (obj instanceof Obstacle) {
                         if (obj.getHitbox().collision(spaceship.getHitbox())) {
                             gameView.gameObjs.remove(obj);
                             Log.d("collision", "COLLISION");

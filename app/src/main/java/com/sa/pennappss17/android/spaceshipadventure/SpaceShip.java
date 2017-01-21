@@ -13,7 +13,6 @@ public class Spaceship implements GameObj {
     public Spaceship(double position, int height, Bitmap bitmap) {
         initialPosition = position;
         this.bitmap = Bitmap.createScaledBitmap(bitmap, 400, 300, true);
-        bitmap.recycle();
         health = 100;
         maxHeight = height;
 
@@ -44,7 +43,7 @@ public class Spaceship implements GameObj {
         if (Math.abs(f) <= .5) return;
         yPosition += 1.5 * f;
         if (yPosition <= -20) {
-            yPosition = 20;
+            yPosition = -20;
         } else if (yPosition >= maxHeight-80) {
             yPosition = maxHeight - 80;
         }
