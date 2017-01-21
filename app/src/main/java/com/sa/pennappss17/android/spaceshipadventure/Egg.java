@@ -47,6 +47,7 @@ public class Egg implements GameObj {
         xEgg += velocity;
         if (xEgg > maxWidth) {
             MainActivity.gameView.gameObjs.remove(this);
+            bitmap.recycle();
         }
     }
 }
