@@ -7,20 +7,32 @@ import android.graphics.Bitmap;
  */
 
 public class Life implements GameObj {
-
-    public static Life[] lives = new Life[5];
+    private int xLifePosition;
+    private int yLifePosition;
+    public static boolean[] lives = new boolean[5];
     private static int currentLife;
 
+    public Life(int coordinateX,int coordinateY) {
+
+        xLifePosition = coordinateX;
+        yLifePosition = coordinateY;
+
+    }
+
     public static void addLife() {
-        currentLife += 1;
+        lives[currentLife] = true;
+        if (currentLife < 5) currentLife++;
+
     }
 
     public static void removeLife() {
-        currentLife -= 1;
+        currentLife--;
+        lives[currentLife] = false;
+
     }
 
     public static boolean alive() {
-        if (Life.length > 0)
+        return currentLife > 0;
     }
 
     @Override
@@ -30,12 +42,12 @@ public class Life implements GameObj {
 
     @Override
     public int getX() {
-        return 0;
+        return xLifePosition;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return yLifePosition;
     }
 
     @Override
@@ -45,8 +57,4 @@ public class Life implements GameObj {
 
     @Override
     public void movement() {
-
     }
-
-    public int
-}
