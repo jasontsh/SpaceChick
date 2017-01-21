@@ -31,11 +31,11 @@ public class Obstacle implements GameObj {
 
     @Override
     public int getX() {
-        return 0;
+        return (int) xPosition;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return (int) yPosition;
     }
 }
