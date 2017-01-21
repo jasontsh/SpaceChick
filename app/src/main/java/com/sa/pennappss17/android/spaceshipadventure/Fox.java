@@ -20,7 +20,7 @@ public class Fox implements GameObj {
 
 
     public Fox(int xInitial, int yInitial, int maxHeight, Resources res, int which) {
-        xPosition = xInitial;
+        xPosition = xInitial + (int) Math.random() *  maxHeight;
         yPosition = yInitial;
         if (FOXES[0] == null) {
             Bitmap bm = BitmapFactory.decodeResource(res, R.drawable.fox3);
