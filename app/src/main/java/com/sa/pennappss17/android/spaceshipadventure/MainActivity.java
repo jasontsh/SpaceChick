@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 R.drawable.spaceship));
         gameView.gameObjs = new HashSet<>();
         gameView.gameObjs.add(spaceship);
+
+        Obstacle obstacle = new Obstacle(width, height, BitmapFactory.decodeResource(getResources(),
+                R.drawable.spaceship));
+        gameView.gameObjs.add(obstacle);
     }
 
     @Override
