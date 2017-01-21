@@ -18,18 +18,20 @@ import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    GameView gameView;
+    static GameView gameView;
     TextView tv;
     float[] components;
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private Spaceship spaceship;
+    private Set<Fox> foxSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +51,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels;
-        int width = displaymetrics.widthPixels;
-        height -= 300;
+        final int height = displaymetrics.heightPixels - 300;
+        final int width = displaymetrics.widthPixels;
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Bitmap spaceshipBm = BitmapFactory.decodeResource(getResources(),
                 R.drawable.spaceship);
+        final Bitmap eggBm = BitmapFactory.decodeResource(getResources(), R.drawable.egg);
 
         spaceship = new Spaceship(0, height, spaceshipBm);
         gameView.gameObjs = Collections.newSetFromMap(new ConcurrentHashMap<GameObj, Boolean>());
@@ -64,11 +66,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         for (int i = 0; i < 10; i++) {
 
-            Obstacle obstacle = new Obstacle(width, height, spaceshipBm);
+            Obstacle obstacle = new Obstacle(width, height, width, spaceshipBm);
             gameView.gameObjs.add(obstacle);
         }
-        Fox fox = new Fox(width - 300, 0, spaceshipBm);
+        Fox fox = new Fox(width - 300, 0, height, spaceshipBm);
         gameView.gameObjs.add(fox);
+        foxSet = new HashSet<>();
+        foxSet.add(fox);
+
+        gameView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Egg egg = new Egg(spaceship.getX()+200, spaceship.getY()+125, width, eggBm);
+                gameView.gameObjs.add(egg);
+            }
+        });
 
         spaceshipBm.recycle();
     }
@@ -102,6 +114,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         if (obj.getHitbox().collision(spaceship.getHitbox())) {
                             gameView.gameObjs.remove(obj);
                             Log.d("collision", "COLLISION");
+                        }
+                    }
+                    if (obj instanceof Egg) {
+                        for (Fox fox : foxSet) {
+                            if (obj.getHitbox().collision(fox.getHitbox())) {
+                                Log.d("Get", "points!");
+                                gameView.gameObjs.remove(obj);
+                            }
                         }
                     }
                 }

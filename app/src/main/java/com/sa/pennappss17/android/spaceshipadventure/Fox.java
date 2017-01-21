@@ -12,12 +12,14 @@ public class Fox implements GameObj {
     private int yPosition;
     private final int velocity;
     private Bitmap bitmap;
+    private int maxHeight;
 
 
-    public Fox(int xInitial, int yInitial, Bitmap bitmap) {
+    public Fox(int xInitial, int yInitial, int maxHeight, Bitmap bitmap) {
         xPosition = xInitial;
         yPosition = yInitial;
         this.bitmap = Bitmap.createScaledBitmap(bitmap, 400, 300, true);
+        this.maxHeight = maxHeight;
         velocity = 20;
     }
 
@@ -38,11 +40,14 @@ public class Fox implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
-        return new Hitbox(xPosition, yPosition, 20, 20);
+        return new Hitbox(xPosition, yPosition, 400, 300);
     }
 
     @Override
     public void movement() {
         yPosition += velocity;
+        if (yPosition > maxHeight) {
+            MainActivity.gameView.gameObjs.remove(this);
+        }
     }
 }
