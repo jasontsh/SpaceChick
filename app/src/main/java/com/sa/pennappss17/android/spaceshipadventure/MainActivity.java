@@ -15,7 +15,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -59,12 +63,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         spaceship = new Spaceship(0, height, BitmapFactory.decodeResource(getResources(),
                 R.drawable.spaceship));
-        gameView.gameObjs = new HashSet<>();
+        gameView.gameObjs = Collections.newSetFromMap(new ConcurrentHashMap<GameObj, Boolean>());
         gameView.gameObjs.add(spaceship);
 
-        Obstacle obstacle = new Obstacle(width, height, BitmapFactory.decodeResource(getResources(),
-                R.drawable.spaceship));
-        gameView.gameObjs.add(obstacle);
+        for (int i = 0; i < 10; i++) {
+
+            Obstacle obstacle = new Obstacle(width, height, BitmapFactory.decodeResource(getResources(),
+                    R.drawable.spaceship));
+            gameView.gameObjs.add(obstacle);
+        }
     }
 
     @Override
@@ -78,6 +85,29 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
+
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                for (GameObj obj : gameView.gameObjs) {
+                    obj.movement();
+                }
+            }
+        }, 0, 30);
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                for (GameObj obj : gameView.gameObjs) {
+                    if (!(obj instanceof Spaceship)) {
+                        if (obj.getHitbox().collision(spaceship.getHitbox())) {
+                            gameView.gameObjs.remove(obj);
+                            Log.d("collision", "COLLISION");
+                        }
+                    }
+                }
+            }
+        }, 0, 30);
 
         gameView.resume();
     }
@@ -103,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         components[0] = event.values[0];
         components[1] = event.values[1];
         components[2] = event.values[2];
-        Log.d("please", "" + components[0] + " " + components[1] + " " + components[2]);
         spaceship.setAccelaration(components[1]);
     }
 

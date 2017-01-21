@@ -20,8 +20,9 @@ public class Obstacle implements GameObj {
         velocity = Math.random() * 5 + 5;
     }
 
+    @Override
     public void movement() {
-        xPosition = -1 * velocity;
+        xPosition -= 1 * velocity;
     }
 
     @Override

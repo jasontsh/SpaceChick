@@ -11,4 +11,5 @@ public interface GameObj {
     int getX();
     int getY();
     Hitbox getHitbox();
+    void movement();
 }
