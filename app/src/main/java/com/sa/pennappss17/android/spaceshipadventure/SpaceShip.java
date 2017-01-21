@@ -1,9 +1,11 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
-public class Spaceship {
+import android.graphics.Bitmap;
+
+public class Spaceship implements GameObj{
     private final double initialPosition;
     private double yPosition;
-    private float velocity;
+    private double velocity;
     private int health;
 
     public Spaceship(double position) {
@@ -11,14 +13,25 @@ public class Spaceship {
         health = 100;
 
     }
-    public void setVelocity(float velocity) {
+    public void setVelocity(double velocity) {
         this.velocity = velocity;
     }
     public boolean state() {
         return health > 0;
     }
 
+    @Override
+    public Bitmap getBitmap() {
+        return null;
+    }
 
+    @Override
+    public int getX() {
+        return (int) initialPosition;
+    }
 
-
+    @Override
+    public int getY() {
+        return (int) yPosition;
+    }
 }
