@@ -1,15 +1,18 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
-public class Spaceship implements GameObj{
+public class Spaceship implements GameObj {
     private final double initialPosition;
     private double yPosition;
     private double velocity;
     private int health;
+    private Bitmap bitmap;
 
-    public Spaceship(double position) {
+    public Spaceship(double position, Bitmap bitmap) {
         initialPosition = position;
+        this.bitmap = bitmap;
         health = 100;
 
     }
@@ -22,7 +25,7 @@ public class Spaceship implements GameObj{
 
     @Override
     public Bitmap getBitmap() {
-        return null;
+        return bitmap;
     }
 
     @Override
@@ -33,5 +36,9 @@ public class Spaceship implements GameObj{
     @Override
     public int getY() {
         return (int) yPosition;
+    }
+
+    public void setAccelaration(float f) {
+        yPosition += 20 * f;
     }
 }

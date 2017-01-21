@@ -52,7 +52,7 @@ public class GameView extends SurfaceView implements Runnable {
             canvas = ourHolder.lockCanvas();
             //draw background here
             for (GameObj go : gameObjs) {
-                canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
+                canvas.drawBitmap(go.getBitmap(), go.getY(), go.getX(), paint);
             }
             ourHolder.unlockCanvasAndPost(canvas);
         }

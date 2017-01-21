@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 
 public class Obstacle implements GameObj {
     private double xPosition;
-    private final double yPosition;
 
     @Override
     public Bitmap getBitmap() {
