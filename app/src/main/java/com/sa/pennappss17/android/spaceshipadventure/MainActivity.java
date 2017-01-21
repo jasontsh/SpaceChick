@@ -18,18 +18,24 @@ import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    GameView gameView;
+    static GameView gameView;
     TextView tv;
     float[] components;
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private Spaceship spaceship;
+    static Set<Fox> foxSet;
+    private int level;
+    int height;
+    int width;
+    Bitmap obstaclesBm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,28 +55,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels;
-        int width = displaymetrics.widthPixels;
-        height -= 300;
+        height = displaymetrics.heightPixels - 300;
+        width = displaymetrics.widthPixels;
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Bitmap spaceshipBm = BitmapFactory.decodeResource(getResources(),
                 R.drawable.spaceship);
+        final Bitmap eggBm = BitmapFactory.decodeResource(getResources(), R.drawable.egg);
+        obstaclesBm = BitmapFactory.decodeResource(getResources(), R.drawable.egg);
 
         spaceship = new Spaceship(0, height, spaceshipBm);
         gameView.gameObjs = Collections.newSetFromMap(new ConcurrentHashMap<GameObj, Boolean>());
         gameView.gameObjs.add(spaceship);
 
-        for (int i = 0; i < 10; i++) {
+        gameView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Egg egg = new Egg(spaceship.getX()+200, spaceship.getY()+125, width, eggBm);
+                gameView.gameObjs.add(egg);
+            }
+        });
 
-            Obstacle obstacle = new Obstacle(width, height, spaceshipBm);
-            gameView.gameObjs.add(obstacle);
-        }
-        Fox fox = new Fox(width - 300, 0, spaceshipBm);
-        gameView.gameObjs.add(fox);
+        foxSet = new HashSet<>();
 
         spaceshipBm.recycle();
+
+        level = 0;
     }
 
     @Override
@@ -104,12 +115,71 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             Log.d("collision", "COLLISION");
                         }
                     }
+                    if (obj instanceof Egg) {
+                        for (Fox fox : foxSet) {
+                            if (obj.getHitbox().collision(fox.getHitbox())) {
+                                Log.d("Get", "points!");
+                                gameView.gameObjs.remove(obj);
+                            }
+                        }
+                    }
                 }
             }
         }, 0, 30);
 
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 9; i++) {
+                    Obstacle obstacle = new Obstacle(width, height, width, level, obstaclesBm);
+                    gameView.gameObjs.add(obstacle);
+                }
+                if (level == 60) {
+                    Fox f = new Fox(width - 300, 0, height, getResources(), 0);
+                    gameView.gameObjs.add(f);
+                    foxSet.add(f);
+                }
+                double r = Math.random();
+                if (r < 0.1) {
+                    Fox f = createFox(level < 60);
+                    gameView.gameObjs.add(f);
+                    foxSet.add(f);
+                } else {
+                    if (level > 10 && r < 0.2) {
+                        Fox f = createFox(level < 60);
+                        gameView.gameObjs.add(f);
+                        foxSet.add(f);
+                    } else if (level > 60 && r < 0.25) {
+                        Fox f = createFox(level < 60);
+                        gameView.gameObjs.add(f);
+                        foxSet.add(f);
+                    }
+                }
+                level++;
+            }
+        }, 0, 1000);
         gameView.resume();
     }
+
+    private Fox createFox(boolean pre60) {
+        double r = Math.random();
+        if (pre60) {
+            if (r < 0.7) {
+                return new Fox(width-300, 0, height, getResources(), 1);
+            } else {
+                return new Fox(width-300, 0, height, getResources(), 2);
+            }
+        } else {
+            if (r < 0.6) {
+                return new Fox(width-300, 0, height, getResources(), 1);
+            } else if (r < .99){
+                return new Fox(width-300, 0, height, getResources(), 2);
+            } else {
+                return new Fox(width-300, 0, height, getResources(), 0);
+            }
+        }
+    }
+
 
     @Override
     protected void onPause() {

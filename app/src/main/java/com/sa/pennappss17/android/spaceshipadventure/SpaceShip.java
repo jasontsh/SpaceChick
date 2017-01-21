@@ -51,7 +51,11 @@ public class Spaceship implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
+<<<<<<< HEAD
         return new Hitbox((int) (initialPosition+0), (int) (yPosition+0), 300, 400);
+=======
+        return new Hitbox((int) (initialPosition+0), (int) (yPosition+0), 120, 160);
+>>>>>>> f887ee7479586df3ea3db33ef4fc8ecd7705525d
     }
 
     public void movement(){
