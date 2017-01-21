@@ -39,6 +39,6 @@ public class Spaceship implements GameObj {
     }
 
     public void setAccelaration(float f) {
-        yPosition += 20 * f;
+        yPosition += 1.1 * f;
     }
 }

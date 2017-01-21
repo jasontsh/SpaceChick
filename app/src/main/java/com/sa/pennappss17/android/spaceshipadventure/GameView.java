@@ -2,6 +2,7 @@ package com.sa.pennappss17.android.spaceshipadventure;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -50,9 +51,11 @@ public class GameView extends SurfaceView implements Runnable {
     public void draw() {
         if (ourHolder.getSurface().isValid()) {
             canvas = ourHolder.lockCanvas();
+
+            canvas.drawColor(Color.BLACK);
             //draw background here
             for (GameObj go : gameObjs) {
-                canvas.drawBitmap(go.getBitmap(), go.getY(), go.getX(), paint);
+                canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
             }
             ourHolder.unlockCanvasAndPost(canvas);
         }

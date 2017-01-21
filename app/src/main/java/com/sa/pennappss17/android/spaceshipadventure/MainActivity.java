@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gameView = new GameView(this);
         setContentView(gameView);
 
-        spaceship = new Spaceship(200, BitmapFactory.decodeResource(getResources(),
+        spaceship = new Spaceship(100, BitmapFactory.decodeResource(getResources(),
                 R.drawable.spaceship));
         gameView.gameObjs = new HashSet<>();
         gameView.gameObjs.add(spaceship);
