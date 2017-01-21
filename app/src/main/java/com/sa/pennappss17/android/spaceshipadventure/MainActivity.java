@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 }

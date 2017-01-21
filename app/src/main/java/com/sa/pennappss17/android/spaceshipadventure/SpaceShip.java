@@ -1,7 +1,6 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 public class Spaceship implements GameObj {
     private final double initialPosition;
