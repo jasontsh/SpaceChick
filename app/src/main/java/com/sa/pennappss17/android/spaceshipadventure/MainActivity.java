@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView tv;
     float[] components;
     private SensorManager mSensorManager;
+    static int starCount;
     private Sensor mSensor;
     private Spaceship spaceship;
     static Set<Fox> foxSet;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         spaceshipBm.recycle();
 
         level = 0;
+        starCount = 0;
     }
 
     @Override
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 9; i++) {
+                for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 9 + starCount; i++) {
                     Obstacle obstacle = new Obstacle(width, height, width, level, obstaclesBm);
                     gameView.gameObjs.add(obstacle);
                 }
@@ -158,6 +160,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 level++;
             }
         }, 0, 1000);
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (starCount < 50) {
+                    Star star = new Star(width, height, getResources());
+                    gameView.gameObjs.add(star);
+                    starCount++;
+                }
+            }
+        }, 0, 80);
         gameView.resume();
     }
 

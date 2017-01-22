@@ -55,7 +55,14 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawColor(Color.BLACK);
             //draw background here
             for (GameObj go : gameObjs) {
-                canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
+                if (go instanceof Star) {
+                    canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
+                }
+            }
+            for (GameObj go : gameObjs) {
+                if (!(go instanceof Star)) {
+                   canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
+                }
             }
             ourHolder.unlockCanvasAndPost(canvas);
         }
