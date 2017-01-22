@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int level;
     int height;
     int width;
+    int lastShot;
     static Lifebar lifebar;
+    Bitmap splat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +70,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         gameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Egg egg = new Egg(spaceship.getX()+300, spaceship.getY()+200, width, eggBm);
-                gameView.gameObjs.add(egg);
+                if (level != lastShot) {
+                    Egg egg = new Egg(spaceship.getX()+300, spaceship.getY()+200, width, eggBm);
+                    gameView.gameObjs.add(egg);
+                    lastShot = level;
+                }
             }
         });
 
@@ -91,13 +96,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         bm.recycle();
 
         bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox3);
-        Fox.FOXES[0] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        Fox.FOXES[0] = Bitmap.createScaledBitmap(bm, 300, 300, true);
         bm.recycle();
         bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox2);
-        Fox.FOXES[1] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        Fox.FOXES[1] = Bitmap.createScaledBitmap(bm, 300, 300, true);
         bm.recycle();
         bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox1);
-        Fox.FOXES[2] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        Fox.FOXES[2] = Bitmap.createScaledBitmap(bm, 350, 350, true);
         bm.recycle();
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star1);
@@ -132,10 +137,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Star.STARS[4][1] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
         bitmap.recycle();
 
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.egg_splat);
+        splat = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+        bitmap.recycle();
+
         spaceshipBm.recycle();
 
         level = 0;
         starCount = 0;
+        lastShot = 0;
     }
 
     @Override
@@ -186,6 +196,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     }
                                     gameView.gameObjs.remove(obj);
                                     foxSet.remove(fox);
+                                    Splat sp = new Splat(fox.getX()+20, fox.getY()+20, splat);
+                                    gameView.gameObjs.add(sp);
                                 }
                             }
                         }
@@ -198,12 +210,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void run() {
                 if (gameView.playing) {
-                    for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 10 + starCount; i++) {
+                    for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 11 + starCount; i++) {
                         Obstacle obstacle = new Obstacle(width, height, width, level, getResources());
                         gameView.gameObjs.add(obstacle);
                     }
                     if (level == 60) {
-                        Fox f = new Fox(width - 300, 0, 100, height, getResources(), 0);
+                        Fox f = new Fox(width - 450, 0, 100, height, getResources(), 0);
                         gameView.gameObjs.add(f);
                         foxSet.add(f);
                     }
@@ -247,17 +259,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         double r = Math.random();
         if (pre60) {
             if (r < 0.7) {
-                return new Fox(width-300, 0, 100, height, getResources(), 1);
+                return new Fox(width-450, 0, 100, height, getResources(), 1);
             } else {
-                return new Fox(width-300, 0, 100, height, getResources(), 2);
+                return new Fox(width-450, 0, 100, height, getResources(), 2);
             }
         } else {
             if (r < 0.6) {
-                return new Fox(width-300, 0, 100, height, getResources(), 1);
+                return new Fox(width-450, 0, 100, height, getResources(), 1);
             } else if (r < .99){
-                return new Fox(width-300, 0, 100, height, getResources(), 2);
+                return new Fox(width-450, 0, 100, height, getResources(), 2);
             } else {
-                return new Fox(width-300, 0, 100, height, getResources(), 0);
+                return new Fox(width-450, 0, 100, height, getResources(), 0);
             }
         }
     }

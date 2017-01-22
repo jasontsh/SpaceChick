@@ -98,7 +98,8 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
             for (GameObj go : gameObjs) {
-                if (!(go instanceof Star)) {
+                Bitmap b = go.getBitmap();
+                if (b != null && !(go instanceof Star)) {
                     Log.d("star", go instanceof Egg ? "egg" : go instanceof Fox ? "fox" : go instanceof
                      Obstacle ? "obstacle" : "wtf?");
                    canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
@@ -112,7 +113,7 @@ public class GameView extends SurfaceView implements Runnable {
             String s = score + "";
             for (int i = 0; i < s.length(); i++) {
                 canvas.drawBitmap(numbers[s.charAt(i) - '0'], MainActivity.lifebar.getLives()[0].getX(),
-                        10 + 50 * i, paint);
+                        20 + 50 * i, paint);
             }
             ourHolder.unlockCanvasAndPost(canvas);
         }

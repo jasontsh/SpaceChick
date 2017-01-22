@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
  */
 
 public class Splat implements GameObj {
-    @Override
 
     private int xSplat;
     private int ySplat;
@@ -17,12 +16,16 @@ public class Splat implements GameObj {
     public Splat (int xPosition, int yPosition, Bitmap bitmap){
         xSplat = xPosition;
         ySplat = yPosition;
-        this.bitmap = Bitmap.createScaledBitmap(bitmap, 70, 40, true);
+        this.bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
         counter = 0;
     }
 
     public Bitmap getBitmap() {
-        if(counter > 10) return null;
+        if(counter > 25) {
+            MainActivity.gameView.gameObjs.remove(this);
+            return null;
+        }
+        return bitmap;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class Fox implements GameObj {
         }
         this.bitmap = FOXES[which];
         this.maxHeight = maxHeight;
-        double v = 8 + Math.random()*4;
+        double v = 12 + Math.random()*4;
         if (r < 0.5) {
             v *= -1;
         }
@@ -61,7 +61,7 @@ public class Fox implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
-        return new Hitbox(xPosition, yPosition, 300, 300);
+        return new Hitbox(xPosition+10, yPosition+10, 300, 300);
     }
 
     @Override

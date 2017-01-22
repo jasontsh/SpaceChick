@@ -39,7 +39,7 @@ public class Egg implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
-        return new Hitbox(xEgg, yEgg, 90, 60);
+        return new Hitbox(xEgg+5, yEgg+5, 75, 45);
     }
 
     @Override
@@ -47,6 +47,7 @@ public class Egg implements GameObj {
         xEgg += velocity;
         if (xEgg > maxWidth) {
             MainActivity.gameView.gameObjs.remove(this);
+            bitmap.recycle();
         }
     }
 }

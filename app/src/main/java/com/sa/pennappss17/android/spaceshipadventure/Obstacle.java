@@ -21,16 +21,16 @@ public class Obstacle implements GameObj {
         xPosition = xInitial;
         if (OBSTACLES[0] == null) {
             Bitmap bm = BitmapFactory.decodeResource(res, R.drawable.planet1);
-            OBSTACLES[0] = Bitmap.createScaledBitmap(bm, 150, 150, true);
+            OBSTACLES[0] = Bitmap.createScaledBitmap(bm, 125, 125, true);
             bm.recycle();
             bm = BitmapFactory.decodeResource(res, R.drawable.planet2);
-            OBSTACLES[1] = Bitmap.createScaledBitmap(bm, 150, 150, true);
+            OBSTACLES[1] = Bitmap.createScaledBitmap(bm, 125, 125, true);
             bm.recycle();
             bm = BitmapFactory.decodeResource(res, R.drawable.planet3);
-            OBSTACLES[2] = Bitmap.createScaledBitmap(bm, 150, 240, true);
+            OBSTACLES[2] = Bitmap.createScaledBitmap(bm, 125, 200, true);
             bm.recycle();
             bm = BitmapFactory.decodeResource(res, R.drawable.planet4);
-            OBSTACLES[3] = Bitmap.createScaledBitmap(bm, 150, 240, true);
+            OBSTACLES[3] = Bitmap.createScaledBitmap(bm, 125, 200, true);
             bm.recycle();
         }
         r = Math.random();
@@ -45,7 +45,7 @@ public class Obstacle implements GameObj {
         }
         this.maxWidth = maxWidth;
         yPosition = Math.random() * boundary;
-        velocity = Math.random() * (7*Math.log10(velMod)) + 5;
+        velocity = Math.random() * (8*Math.log10(velMod)) + 7;
         if (velocity > 90) {
             velocity = 90;
         }
@@ -76,7 +76,7 @@ public class Obstacle implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
-        int d = r >= 0.5 ? 30 : 0;
-        return new Hitbox((int) (xPosition+20), (int) (yPosition+10), 100, 120 + d);
+        int d = r >= 0.5 ? 50 : 0;
+        return new Hitbox((int) (xPosition+20), (int) (yPosition+10), 70, 100 + d);
     }
 }
