@@ -61,7 +61,7 @@ public class Fox implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
-        return new Hitbox(xPosition+25, yPosition+25, 275, 275);
+        return new Hitbox(xPosition+20, yPosition+20, 240, 240);
     }
 
     @Override
