@@ -67,7 +67,7 @@ public class Fox implements GameObj {
     @Override
     public void movement() {
         yPosition += velocity;
-        if (yPosition > maxHeight) {
+        if (yPosition > maxHeight || yPosition < 0) {
             MainActivity.gameView.gameObjs.remove(this);
             MainActivity.foxSet.remove(this);
         }
