@@ -1,6 +1,7 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        foxSet = new HashSet<>();
+        foxSet = Collections.newSetFromMap(new ConcurrentHashMap<Fox, Boolean>());;
 
         lifebar = new Lifebar(width, height, getResources());
 
@@ -127,8 +128,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     if (obj instanceof Egg) {
                         for (Fox fox : foxSet) {
                             if (obj.getHitbox().collision(fox.getHitbox())) {
-                                Log.d("Get", "points!");
+                                gameView.gameObjs.remove(fox);
+                                gameView.score += fox.getWorth();
                                 gameView.gameObjs.remove(obj);
+                                foxSet.remove(fox);
                             }
                         }
                     }
@@ -144,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     gameView.gameObjs.add(obstacle);
                 }
                 if (level == 60) {
-                    Fox f = new Fox(width - 300, 0, height, getResources(), 0);
+                    Fox f = new Fox(width - 300, 0, 100, height, getResources(), 0);
                     gameView.gameObjs.add(f);
                     foxSet.add(f);
                 }
@@ -185,17 +188,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         double r = Math.random();
         if (pre60) {
             if (r < 0.7) {
-                return new Fox(width-300, 0, height, getResources(), 1);
+                return new Fox(width-300, 0, 100, height, getResources(), 1);
             } else {
-                return new Fox(width-300, 0, height, getResources(), 2);
+                return new Fox(width-300, 0, 100, height, getResources(), 2);
             }
         } else {
             if (r < 0.6) {
-                return new Fox(width-300, 0, height, getResources(), 1);
+                return new Fox(width-300, 0, 100, height, getResources(), 1);
             } else if (r < .99){
-                return new Fox(width-300, 0, height, getResources(), 2);
+                return new Fox(width-300, 0, 100, height, getResources(), 2);
             } else {
-                return new Fox(width-300, 0, height, getResources(), 0);
+                return new Fox(width-300, 0, 100, height, getResources(), 0);
             }
         }
     }

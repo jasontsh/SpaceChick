@@ -45,7 +45,7 @@ public class Egg implements GameObj {
     @Override
     public void movement() {
         xEgg += velocity;
-        if (xEgg > maxWidth) {
+        if (xEgg > maxWidth + 200) {
             MainActivity.gameView.gameObjs.remove(this);
             bitmap.recycle();
         }

@@ -25,13 +25,14 @@ public class GameView extends SurfaceView implements Runnable {
     private double fps;
     private long timeThisFrame;
     Set<GameObj> gameObjs;
-
+    int score;
 
     public GameView(Context context) {
         super(context);
         ourHolder = getHolder();
         paint = new Paint();
         playing = true;
+        score = 0;
     }
 
     @Override
@@ -71,6 +72,11 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(MainActivity.lifebar.getBitmap(i), MainActivity.lifebar.getLives()[i].getX(),
                         MainActivity.lifebar.getLives()[i].getY(), paint);
             }
+
+            paint.setColor(Color.WHITE);
+            String s = "Score: " + score;
+            canvas.drawText(s, 200, 300, paint);
+            Log.d("Score", s);
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }

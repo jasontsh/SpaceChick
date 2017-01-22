@@ -19,9 +19,10 @@ public class Fox implements GameObj {
     private int worth;
 
 
-    public Fox(int xInitial, int yInitial, int maxHeight, Resources res, int which) {
-        xPosition = xInitial + (int) Math.random() *  maxHeight;
-        yPosition = yInitial;
+    public Fox(int xInitial, int yInitial, int xrange, int maxHeight, Resources res, int which) {
+        xPosition = xInitial + (int) (Math.random() *  xrange);
+        double r = Math.random();
+        yPosition = r >= 0.5 ? yInitial : maxHeight;
         if (FOXES[0] == null) {
             Bitmap bm = BitmapFactory.decodeResource(res, R.drawable.fox3);
             FOXES[0] = Bitmap.createScaledBitmap(bm, 200, 200, true);
@@ -35,7 +36,11 @@ public class Fox implements GameObj {
         }
         this.bitmap = FOXES[which];
         this.maxHeight = maxHeight;
-        velocity = 8 + Math.random()*4;
+        double v = 8 + Math.random()*4;
+        if (r < 0.5) {
+            v *= -1;
+        }
+        velocity = v;
         worth = which == 0 ? 10 : which == 1 ? 1 : 3;
     }
 

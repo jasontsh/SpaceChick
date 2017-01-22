@@ -45,8 +45,8 @@ public class Obstacle implements GameObj {
         this.maxWidth = maxWidth;
         yPosition = Math.random() * boundary;
         velocity = Math.random() * (5*Math.log10(velMod)) + 5;
-        if (velocity > 55) {
-            velocity = 55;
+        if (velocity > 70) {
+            velocity = 70;
         }
     }
 
