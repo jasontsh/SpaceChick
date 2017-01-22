@@ -14,25 +14,26 @@ public class Obstacle implements GameObj {
     private double velocity;
     private double maxWidth;
     static final Bitmap[] OBSTACLES = new Bitmap[4];
+    private double r;
     private Bitmap bitmap;
 
     public Obstacle(int xInitial, int boundary, int maxWidth, int velMod, Resources res) {
         xPosition = xInitial;
         if (OBSTACLES[0] == null) {
             Bitmap bm = BitmapFactory.decodeResource(res, R.drawable.planet1);
-            OBSTACLES[0] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+            OBSTACLES[0] = Bitmap.createScaledBitmap(bm, 150, 150, true);
             bm.recycle();
             bm = BitmapFactory.decodeResource(res, R.drawable.planet2);
-            OBSTACLES[1] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+            OBSTACLES[1] = Bitmap.createScaledBitmap(bm, 150, 150, true);
             bm.recycle();
             bm = BitmapFactory.decodeResource(res, R.drawable.planet3);
-            OBSTACLES[2] = Bitmap.createScaledBitmap(bm, 200, 300, true);
+            OBSTACLES[2] = Bitmap.createScaledBitmap(bm, 150, 240, true);
             bm.recycle();
             bm = BitmapFactory.decodeResource(res, R.drawable.planet4);
-            OBSTACLES[3] = Bitmap.createScaledBitmap(bm, 200, 300, true);
+            OBSTACLES[3] = Bitmap.createScaledBitmap(bm, 150, 240, true);
             bm.recycle();
         }
-        double r = Math.random();
+        r = Math.random();
         if (r < 0.25) {
             bitmap = OBSTACLES[0];
         } else if (r < 0.5) {
@@ -44,9 +45,9 @@ public class Obstacle implements GameObj {
         }
         this.maxWidth = maxWidth;
         yPosition = Math.random() * boundary;
-        velocity = Math.random() * (5*Math.log10(velMod)) + 5;
-        if (velocity > 70) {
-            velocity = 70;
+        velocity = Math.random() * (7*Math.log10(velMod)) + 5;
+        if (velocity > 90) {
+            velocity = 90;
         }
     }
 
@@ -75,6 +76,7 @@ public class Obstacle implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
-        return new Hitbox((int) (xPosition+10), (int) (yPosition+10), 120, 160);
+        int d = r >= 0.5 ? 30 : 0;
+        return new Hitbox((int) (xPosition+20), (int) (yPosition+10), 100, 120 + d);
     }
 }

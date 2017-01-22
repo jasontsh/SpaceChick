@@ -1,7 +1,6 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -11,14 +10,11 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,17 +23,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     static GameView gameView;
-    TextView tv;
     float[] components;
     private SensorManager mSensorManager;
     static int starCount;
-    private Sensor mSensor;
+    private volatile Sensor mSensor;
     private Spaceship spaceship;
     static Set<Fox> foxSet;
     private int level;
     int height;
     int width;
-    Bitmap obstaclesBm;
     static Lifebar lifebar;
 
     @Override
@@ -66,16 +60,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Bitmap spaceshipBm = BitmapFactory.decodeResource(getResources(),
                 R.drawable.spaceship);
         final Bitmap eggBm = BitmapFactory.decodeResource(getResources(), R.drawable.egg);
-        obstaclesBm = BitmapFactory.decodeResource(getResources(), R.drawable.egg);
 
-        spaceship = new Spaceship(0, height, spaceshipBm);
+        spaceship = new Spaceship(-100, height, spaceshipBm);
         gameView.gameObjs = Collections.newSetFromMap(new ConcurrentHashMap<GameObj, Boolean>());
         gameView.gameObjs.add(spaceship);
 
         gameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Egg egg = new Egg(spaceship.getX()+200, spaceship.getY()+125, width, eggBm);
+                Egg egg = new Egg(spaceship.getX()+300, spaceship.getY()+200, width, eggBm);
                 gameView.gameObjs.add(egg);
             }
         });
@@ -83,6 +76,61 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         foxSet = Collections.newSetFromMap(new ConcurrentHashMap<Fox, Boolean>());;
 
         lifebar = new Lifebar(width, height, getResources());
+
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.planet1);
+        Obstacle.OBSTACLES[0] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        bm.recycle();
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.planet2);
+        Obstacle.OBSTACLES[1] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        bm.recycle();
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.planet3);
+        Obstacle.OBSTACLES[2] = Bitmap.createScaledBitmap(bm, 200, 300, true);
+        bm.recycle();
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.planet4);
+        Obstacle.OBSTACLES[3] = Bitmap.createScaledBitmap(bm, 200, 300, true);
+        bm.recycle();
+
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox3);
+        Fox.FOXES[0] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        bm.recycle();
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox2);
+        Fox.FOXES[1] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        bm.recycle();
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox1);
+        Fox.FOXES[2] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        bm.recycle();
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star1);
+        Star.STARS[0][0] = Bitmap.createScaledBitmap(bitmap, 120, 120, true);
+        bitmap.recycle();
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star2);
+        Star.STARS[1][0] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap.recycle();
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star3);
+        Star.STARS[2][0] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap.recycle();
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star4);
+        Star.STARS[3][0] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap.recycle();
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star5);
+        Star.STARS[4][0] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap.recycle();
+
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star1_move);
+        Star.STARS[0][1] = Bitmap.createScaledBitmap(bitmap, 120, 120, true);
+        bitmap.recycle();
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star2_move);
+        Star.STARS[1][1] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap.recycle();
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star3_move);
+        Star.STARS[2][1] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap.recycle();
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star4_move);
+        Star.STARS[3][1] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap.recycle();
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.star5_move);
+        Star.STARS[4][1] = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
+        bitmap.recycle();
 
         spaceshipBm.recycle();
 
@@ -106,32 +154,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                for (GameObj obj : gameView.gameObjs) {
-                    obj.movement();
+                if (gameView.playing) {
+                    for (GameObj obj : gameView.gameObjs) {
+                        obj.movement();
+                    }
                 }
             }
         }, 0, 30);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                for (GameObj obj : gameView.gameObjs) {
-                    if (obj instanceof Obstacle) {
-                        if (obj.getHitbox().collision(spaceship.getHitbox())) {
-                            gameView.gameObjs.remove(obj);
-                            lifebar.removeLife();
-                            if (!lifebar.alive()) {
-                                //Game over!
-                                gameView.playing = false;
+                if (gameView.playing) {
+                    for (GameObj obj : gameView.gameObjs) {
+                        if (obj instanceof Obstacle) {
+                            if (obj.getHitbox().collision(spaceship.getHitbox())) {
+                                gameView.gameObjs.remove(obj);
+                                lifebar.removeLife();
+                                if (!lifebar.alive()) {
+                                    //Game over!
+                                    gameView.playing = false;
+                                }
                             }
                         }
-                    }
-                    if (obj instanceof Egg) {
-                        for (Fox fox : foxSet) {
-                            if (obj.getHitbox().collision(fox.getHitbox())) {
-                                gameView.gameObjs.remove(fox);
-                                gameView.score += fox.getWorth();
-                                gameView.gameObjs.remove(obj);
-                                foxSet.remove(fox);
+                        if (obj instanceof Egg) {
+                            for (Fox fox : foxSet) {
+                                if (obj.getHitbox().collision(fox.getHitbox())) {
+                                    gameView.gameObjs.remove(fox);
+                                    gameView.score += fox.getWorth();
+                                    if (fox.getWorth() == 10) {
+                                        lifebar.addLife();
+                                    }
+                                    gameView.gameObjs.remove(obj);
+                                    foxSet.remove(fox);
+                                }
                             }
                         }
                     }
@@ -142,42 +197,46 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 10 + starCount; i++) {
-                    Obstacle obstacle = new Obstacle(width, height, width, level, getResources());
-                    gameView.gameObjs.add(obstacle);
-                }
-                if (level == 60) {
-                    Fox f = new Fox(width - 300, 0, 100, height, getResources(), 0);
-                    gameView.gameObjs.add(f);
-                    foxSet.add(f);
-                }
-                double r = Math.random();
-                if (r < 0.1) {
-                    Fox f = createFox(level < 60);
-                    gameView.gameObjs.add(f);
-                    foxSet.add(f);
-                } else {
-                    if (level > 10 && r < 0.2) {
-                        Fox f = createFox(level < 60);
-                        gameView.gameObjs.add(f);
-                        foxSet.add(f);
-                    } else if (level > 60 && r < 0.25) {
-                        Fox f = createFox(level < 60);
+                if (gameView.playing) {
+                    for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 10 + starCount; i++) {
+                        Obstacle obstacle = new Obstacle(width, height, width, level, getResources());
+                        gameView.gameObjs.add(obstacle);
+                    }
+                    if (level == 60) {
+                        Fox f = new Fox(width - 300, 0, 100, height, getResources(), 0);
                         gameView.gameObjs.add(f);
                         foxSet.add(f);
                     }
+                    double r = Math.random();
+                    if (r < 0.1) {
+                        Fox f = createFox(level < 60);
+                        gameView.gameObjs.add(f);
+                        foxSet.add(f);
+                    } else {
+                        if (level > 10 && r < 0.2) {
+                            Fox f = createFox(level < 60);
+                            gameView.gameObjs.add(f);
+                            foxSet.add(f);
+                        } else if (level > 60 && r < 0.25) {
+                            Fox f = createFox(level < 60);
+                            gameView.gameObjs.add(f);
+                            foxSet.add(f);
+                        }
+                    }
+                    level++;
                 }
-                level++;
             }
         }, 0, 1000);
 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (starCount < 50) {
-                    Star star = new Star(width, height, getResources());
-                    gameView.gameObjs.add(star);
-                    starCount++;
+                if (gameView.playing) {
+                    if (starCount < 50) {
+                        Star star = new Star(width, height, getResources());
+                        gameView.gameObjs.add(star);
+                        starCount++;
+                    }
                 }
             }
         }, 0, 80);

@@ -1,6 +1,8 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,6 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
     private long timeThisFrame;
     Set<GameObj> gameObjs;
     int score;
+    Bitmap[] numbers;
 
     public GameView(Context context) {
         super(context);
@@ -33,6 +36,40 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
         playing = true;
         score = 0;
+        numbers = new Bitmap[10];
+        int x = 100, y = 60;
+        Bitmap buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no0);
+        numbers[0] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no1);
+        numbers[1] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no2);
+        numbers[2] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no3);
+        numbers[3] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no4);
+        numbers[4] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no5);
+        numbers[5] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no6);
+        numbers[6] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no7);
+        numbers[7] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no8);
+        numbers[8] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no9);
+        numbers[9] = Bitmap.createScaledBitmap(buffer, x, y, true);
+        buffer.recycle();
+
+
     }
 
     @Override
@@ -72,11 +109,11 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(MainActivity.lifebar.getBitmap(i), MainActivity.lifebar.getLives()[i].getX(),
                         MainActivity.lifebar.getLives()[i].getY(), paint);
             }
-
-            paint.setColor(Color.WHITE);
-            String s = "Score: " + score;
-            canvas.drawText(s, 200, 300, paint);
-            Log.d("Score", s);
+            String s = score + "";
+            for (int i = 0; i < s.length(); i++) {
+                canvas.drawBitmap(numbers[s.charAt(i) - '0'], MainActivity.lifebar.getLives()[0].getX(),
+                        10 + 50 * i, paint);
+            }
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }

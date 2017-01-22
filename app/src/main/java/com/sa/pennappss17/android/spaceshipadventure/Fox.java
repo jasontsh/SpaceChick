@@ -25,13 +25,13 @@ public class Fox implements GameObj {
         yPosition = r >= 0.5 ? yInitial : maxHeight;
         if (FOXES[0] == null) {
             Bitmap bm = BitmapFactory.decodeResource(res, R.drawable.fox3);
-            FOXES[0] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+            FOXES[0] = Bitmap.createScaledBitmap(bm, 300, 300, true);
             bm.recycle();
             bm = BitmapFactory.decodeResource(res, R.drawable.fox2);
-            FOXES[1] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+            FOXES[1] = Bitmap.createScaledBitmap(bm, 300, 300, true);
             bm.recycle();
             bm = BitmapFactory.decodeResource(res, R.drawable.fox1);
-            FOXES[2] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+            FOXES[2] = Bitmap.createScaledBitmap(bm, 350, 350, true);
             bm.recycle();
         }
         this.bitmap = FOXES[which];
@@ -61,7 +61,7 @@ public class Fox implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
-        return new Hitbox(xPosition, yPosition, 400, 300);
+        return new Hitbox(xPosition, yPosition, 300, 300);
     }
 
     @Override

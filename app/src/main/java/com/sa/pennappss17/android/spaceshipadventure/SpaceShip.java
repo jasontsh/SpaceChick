@@ -12,7 +12,7 @@ public class Spaceship implements GameObj {
 
     public Spaceship(double position, int height, Bitmap bitmap) {
         initialPosition = position;
-        this.bitmap = Bitmap.createScaledBitmap(bitmap, 400, 300, true);
+        this.bitmap = Bitmap.createScaledBitmap(bitmap, 640, 480, true);
         health = 100;
         maxHeight = height;
 
@@ -51,7 +51,7 @@ public class Spaceship implements GameObj {
 
     @Override
     public Hitbox getHitbox() {
-        return new Hitbox((int) (initialPosition+0), (int) (yPosition+0), 120, 160);
+        return new Hitbox((int) (initialPosition+40), (int) (yPosition+40), 350, 300);
     }
 
     public void movement(){
