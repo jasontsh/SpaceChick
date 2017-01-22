@@ -90,7 +90,7 @@ public class GameView extends SurfaceView implements Runnable {
         if (ourHolder.getSurface().isValid()) {
             canvas = ourHolder.lockCanvas();
 
-            canvas.drawColor(Color.BLACK);
+            canvas.drawColor(Color.rgb(31, 42, 66));
             //draw background here
             for (GameObj go : gameObjs) {
                 if (go instanceof Star) {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SpaceshipAdventure</string>
+    <string name="app_name">SpaceChick</string>
 
     <string name="title_activity_start">StartActivity</string>
     <string name="dummy_button">Dummy Button</string>

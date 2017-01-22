@@ -1,6 +1,7 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         getSupportActionBar().hide();
 
         gameView = new GameView(this);
+        gameView.playing = false;
 
         setContentView(gameView);
 
@@ -98,10 +100,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox3);
         Fox.FOXES[0] = Bitmap.createScaledBitmap(bm, 300, 300, true);
         bm.recycle();
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox2);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox1);
         Fox.FOXES[1] = Bitmap.createScaledBitmap(bm, 300, 300, true);
         bm.recycle();
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox1);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.fox2);
         Fox.FOXES[2] = Bitmap.createScaledBitmap(bm, 350, 350, true);
         bm.recycle();
 
@@ -146,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         level = 0;
         starCount = 0;
         lastShot = 0;
+
+        gameView.playing = true;
     }
 
     @Override
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //                | View.SYSTEM_UI_FLAG_FULLSCREEN;
 //        decorView.setSystemUiVisibility(uiOptions);
 
-        Timer timer = new Timer();
+        final Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -171,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
             }
         }, 0, 30);
+        final Context c = this;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -183,6 +188,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 if (!lifebar.alive()) {
                                     //Game over!
                                     gameView.playing = false;
+                                    Intent intent = new Intent(c, ScoreActivity.class);
+                                    intent.putExtra("score", gameView.score);
+                                    startActivity(intent);
+                                    timer.cancel();
+                                    finish();
                                 }
                             }
                         }
@@ -210,7 +220,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void run() {
                 if (gameView.playing) {
-                    for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 11 + starCount; i++) {
+                    int increase = gameView.score > 50 ? 3 : 0;
+                    for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 11 + increase + starCount; i++) {
                         Obstacle obstacle = new Obstacle(width, height, width, level, getResources());
                         gameView.gameObjs.add(obstacle);
                     }
