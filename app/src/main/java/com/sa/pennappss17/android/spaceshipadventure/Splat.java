@@ -11,14 +11,17 @@ public class Splat implements GameObj {
 
     private int xSplat;
     private int ySplat;
+    private int counter;
+    private Bitmap bitmap;
 
     public Splat (int xPosition, int yPosition, Bitmap bitmap){
         xSplat = xPosition;
         ySplat = yPosition;
+        counter = 0;
     }
 
     public Bitmap getBitmap() {
-        return null;
+        if(counter > 10) return null;
     }
 
     @Override
@@ -38,6 +41,6 @@ public class Splat implements GameObj {
 
     @Override
     public void movement() {
-
+        counter++;
     }
 }
