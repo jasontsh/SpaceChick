@@ -1,5 +1,6 @@
 package com.sa.pennappss17.android.spaceshipadventure;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -15,23 +16,32 @@ public class Obstacle implements GameObj {
     static final Bitmap[] OBSTACLES = new Bitmap[4];
     private Bitmap bitmap;
 
-    public Obstacle(int xInitial, int boundary, int maxWidth, int velMod, Resources res, Bitmap bitmap) {
+    public Obstacle(int xInitial, int boundary, int maxWidth, int velMod, Resources res) {
         xPosition = xInitial;
         if (OBSTACLES[0] == null) {
-            Bitmap bm = BitmapFactory.decodeResource(res, R.drawable.obstacle4);
+            Bitmap bm = BitmapFactory.decodeResource(res, R.drawable.planet1);
             OBSTACLES[0] = Bitmap.createScaledBitmap(bm, 200, 200, true);
             bm.recycle();
-            bm = BitmapFactory.decodeResource(res, R.drawable.obstacle3);
+            bm = BitmapFactory.decodeResource(res, R.drawable.planet2);
             OBSTACLES[1] = Bitmap.createScaledBitmap(bm, 200, 200, true);
             bm.recycle();
-            bm = BitmapFactory.decodeResource(res, R.drawable.obstacle2);
-            OBSTACLES[2] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+            bm = BitmapFactory.decodeResource(res, R.drawable.planet3);
+            OBSTACLES[2] = Bitmap.createScaledBitmap(bm, 200, 300, true);
             bm.recycle();
-            bm = BitmapFactory.decodeResource(res, R.drawable.obstacle1);
-            OBSTACLES[3] = Bitmap.createScaledBitmap(bm, 200, 200, true);
+            bm = BitmapFactory.decodeResource(res, R.drawable.planet4);
+            OBSTACLES[3] = Bitmap.createScaledBitmap(bm, 200, 300, true);
             bm.recycle();
         }
-        this.bitmap = Bitmap.createScaledBitmap(bitmap, 180, 120, true);
+        double r = Math.random();
+        if (r < 0.25) {
+            bitmap = OBSTACLES[0];
+        } else if (r < 0.5) {
+            bitmap = OBSTACLES[1];
+        } else if (r < 0.75) {
+            bitmap = OBSTACLES[2];
+        } else {
+            bitmap = OBSTACLES[3];
+        }
         this.maxWidth = maxWidth;
         yPosition = Math.random() * boundary;
         velocity = Math.random() * (5*Math.log10(velMod)) + 5;
@@ -45,7 +55,6 @@ public class Obstacle implements GameObj {
         xPosition -= 1 * velocity;
         if (xPosition < 0) {
             MainActivity.gameView.gameObjs.remove(this);
-            bitmap.recycle();
         }
     }
 

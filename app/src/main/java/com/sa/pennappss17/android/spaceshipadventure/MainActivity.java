@@ -139,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 9 + starCount; i++) {
-                    Obstacle obstacle = new Obstacle(width, height, width, level, obstaclesBm);
+                for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 10 + starCount; i++) {
+                    Obstacle obstacle = new Obstacle(width, height, width, level, getResources());
                     gameView.gameObjs.add(obstacle);
                 }
                 if (level == 60) {
