@@ -20,13 +20,13 @@
             android:layout_height="wrap_content"
             android:src="@drawable/score"/>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/score_iv"
-            android:textSize="40sp"
-            android:layout_alignBottom="@id/score_iv"/>
+            android:layout_alignBottom="@id/score_iv"
+            android:orientation="horizontal"/>
 
         <ImageView
             android:id="@+id/highscore_iv"
@@ -35,14 +35,15 @@
             android:layout_below="@id/score_iv"
             android:src="@drawable/highscore"/>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/highscore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/score_iv"
             android:layout_toEndOf="@id/highscore_iv"
-            android:textSize="40sp"
-            android:layout_alignBottom="@id/highscore_iv"/>
+            android:layout_alignBottom="@id/highscore_iv"
+            android:paddingTop="20dp"
+            android:orientation="horizontal"/>
 
         <Button
             android:id="@+id/restart"

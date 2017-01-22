@@ -28,7 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
     private long timeThisFrame;
     Set<GameObj> gameObjs;
     int score;
-    Bitmap[] numbers;
+    public static Bitmap[] numbers;
 
     public GameView(Context context) {
         super(context);
@@ -38,38 +38,38 @@ public class GameView extends SurfaceView implements Runnable {
         score = 0;
         numbers = new Bitmap[10];
         int x = 100, y = 60;
-        Bitmap buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no0);
-        numbers[0] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no1);
-        numbers[1] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no2);
-        numbers[2] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no3);
-        numbers[3] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no4);
-        numbers[4] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no5);
-        numbers[5] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no6);
-        numbers[6] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no7);
-        numbers[7] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no8);
-        numbers[8] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-        buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no9);
-        numbers[9] = Bitmap.createScaledBitmap(buffer, x, y, true);
-        buffer.recycle();
-
-
+        if (numbers[0] == null) {
+            Bitmap buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no0);
+            numbers[0] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no1);
+            numbers[1] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no2);
+            numbers[2] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no3);
+            numbers[3] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no4);
+            numbers[4] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no5);
+            numbers[5] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no6);
+            numbers[6] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no7);
+            numbers[7] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no8);
+            numbers[8] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+            buffer = BitmapFactory.decodeResource(getResources(), R.drawable.no9);
+            numbers[9] = Bitmap.createScaledBitmap(buffer, x, y, true);
+            buffer.recycle();
+        }
     }
 
     @Override
