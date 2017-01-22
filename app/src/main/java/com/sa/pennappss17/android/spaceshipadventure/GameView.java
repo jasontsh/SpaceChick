@@ -102,7 +102,7 @@ public class GameView extends SurfaceView implements Runnable {
                 if (b != null && !(go instanceof Star)) {
                     Log.d("star", go instanceof Egg ? "egg" : go instanceof Fox ? "fox" : go instanceof
                      Obstacle ? "obstacle" : "wtf?");
-                   canvas.drawBitmap(go.getBitmap(), go.getX(), go.getY(), paint);
+                   canvas.drawBitmap(b, go.getX(), go.getY(), paint);
                 }
             }
 
