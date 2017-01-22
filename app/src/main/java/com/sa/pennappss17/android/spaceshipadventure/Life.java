@@ -6,55 +6,32 @@ import android.graphics.Bitmap;
  * Created by emilytan on 1/21/17.
  */
 
-public class Life implements GameObj {
+public class Life {
     private int xLifePosition;
     private int yLifePosition;
-    public static boolean[] lives = new boolean[5];
-    private static int currentLife;
+    private boolean state;
 
-    public Life(int coordinateX,int coordinateY) {
-
+    public Life(int coordinateX, int coordinateY, boolean state) {
+        this.state = state;
         xLifePosition = coordinateX;
         yLifePosition = coordinateY;
 
     }
 
-    public static void addLife() {
-        lives[currentLife] = true;
-        if (currentLife < 5) currentLife++;
-
+    public void changeState() {
+        state = !state;
     }
 
-    public static void removeLife() {
-        currentLife--;
-        lives[currentLife] = false;
-
-    }
-
-    public static boolean alive() {
-        return currentLife > 0;
-    }
-
-    @Override
-    public Bitmap getBitmap() {
-        return null;
-    }
-
-    @Override
     public int getX() {
         return xLifePosition;
     }
 
-    @Override
     public int getY() {
         return yLifePosition;
     }
 
-    @Override
-    public Hitbox getHitbox() {
-        return null;
+    public boolean getState() {
+        return state;
     }
 
-    @Override
-    public void movement() {
-    }
+}

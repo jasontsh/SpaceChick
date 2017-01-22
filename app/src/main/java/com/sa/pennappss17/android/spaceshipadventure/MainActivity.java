@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     int height;
     int width;
     Bitmap obstaclesBm;
+    static Lifebar lifebar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         foxSet = new HashSet<>();
 
+        lifebar = new Lifebar(width, height, getResources());
+
         spaceshipBm.recycle();
 
         level = 0;
@@ -114,7 +117,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     if (obj instanceof Obstacle) {
                         if (obj.getHitbox().collision(spaceship.getHitbox())) {
                             gameView.gameObjs.remove(obj);
-                            Log.d("collision", "COLLISION");
+                            lifebar.removeLife();
+                            if (!lifebar.alive()) {
+                                //Game over!
+                                gameView.playing = false;
+                            }
                         }
                     }
                     if (obj instanceof Egg) {
