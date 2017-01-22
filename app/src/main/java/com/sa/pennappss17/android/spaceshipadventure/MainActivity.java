@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void run() {
                 if (gameView.playing) {
                     int increase = gameView.score > 50 ? 3 : 0;
+                    increase = gameView.score > 100 ? 5 : increase;
                     for (int i = 0; i < Math.log10(level) && gameView.gameObjs.size() < 11 + increase + starCount; i++) {
                         Obstacle obstacle = new Obstacle(width, height, width, level, getResources());
                         gameView.gameObjs.add(obstacle);
