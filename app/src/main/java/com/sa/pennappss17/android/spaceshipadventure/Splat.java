@@ -17,6 +17,7 @@ public class Splat implements GameObj {
     public Splat (int xPosition, int yPosition, Bitmap bitmap){
         xSplat = xPosition;
         ySplat = yPosition;
+        this.bitmap = Bitmap.createScaledBitmap(bitmap, 70, 40, true);
         counter = 0;
     }
 
