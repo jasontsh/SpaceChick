@@ -8,14 +8,14 @@ import android.graphics.BitmapFactory;
  * Created by Jason on 1/21/2017.
  */
 
-public class Lifebar {
+public class LifeBar {
     private Life[] lives;
 
     private int currentLife;
     private static final int sizex = 125, sizey = 125;
     private Bitmap chick, nugget;
 
-    public Lifebar(int xEnd, int yEnd, Resources res) {
+    public LifeBar(int xEnd, int yEnd, Resources res) {
         lives = new Life[5];
         currentLife = 3;
         for (int i = 0; i < 3; i++) {

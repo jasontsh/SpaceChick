@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     int height;
     int width;
     int lastShot;
-    static Lifebar lifebar;
+    static LifeBar lifeBar;
     Bitmap splat;
 
     @Override
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         foxSet = Collections.newSetFromMap(new ConcurrentHashMap<Fox, Boolean>());;
 
-        lifebar = new Lifebar(width, height, getResources());
+        lifeBar = new LifeBar(width, height, getResources());
 
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.planet1);
         Obstacle.OBSTACLES[0] = Bitmap.createScaledBitmap(bm, 200, 200, true);
@@ -184,8 +184,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         if (obj instanceof Obstacle) {
                             if (obj.getHitbox().collision(spaceship.getHitbox())) {
                                 gameView.gameObjs.remove(obj);
-                                lifebar.removeLife();
-                                if (!lifebar.alive()) {
+                                lifeBar.removeLife();
+                                if (!lifeBar.alive()) {
                                     //Game over!
                                     gameView.playing = false;
                                     Intent intent = new Intent(c, ScoreActivity.class);
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     gameView.gameObjs.remove(fox);
                                     gameView.score += fox.getWorth();
                                     if (fox.getWorth() == 10) {
-                                        lifebar.addLife();
+                                        lifeBar.addLife();
                                     }
                                     gameView.gameObjs.remove(obj);
                                     foxSet.remove(fox);

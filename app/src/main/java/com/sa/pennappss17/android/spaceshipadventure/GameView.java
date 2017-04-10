@@ -106,13 +106,13 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
 
-            for (int i = 0; i < MainActivity.lifebar.getLives().length; i++) {
-                canvas.drawBitmap(MainActivity.lifebar.getBitmap(i), MainActivity.lifebar.getLives()[i].getX(),
-                        MainActivity.lifebar.getLives()[i].getY(), paint);
+            for (int i = 0; i < MainActivity.lifeBar.getLives().length; i++) {
+                canvas.drawBitmap(MainActivity.lifeBar.getBitmap(i), MainActivity.lifeBar.getLives()[i].getX(),
+                        MainActivity.lifeBar.getLives()[i].getY(), paint);
             }
             String s = score + "";
             for (int i = 0; i < s.length(); i++) {
-                canvas.drawBitmap(numbers[s.charAt(i) - '0'], MainActivity.lifebar.getLives()[0].getX(),
+                canvas.drawBitmap(numbers[s.charAt(i) - '0'], MainActivity.lifeBar.getLives()[0].getX(),
                         20 + 50 * i, paint);
             }
             ourHolder.unlockCanvasAndPost(canvas);
